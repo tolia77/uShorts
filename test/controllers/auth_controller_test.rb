@@ -11,8 +11,8 @@ class AuthControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
   end
 
-  test "should not sign up without password" do
-    post auth_signup_url, params: {email: "test1@test.com", password: ""}
+  test "should not sign up with invalid password" do
+    post auth_signup_url, params: {email: "test1@test.com", password: "bad"}
     assert_response :unprocessable_entity
   end
 
