@@ -1,9 +1,8 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  email: MyString
-  password: MyString
+  email: one@test.com
+  password_digest: $2a$12$1eO/UB3lfH7wVLG.ieZy8uvrEZWTxPiOX0CuIENqBUS76HZAjbbTa #password
 
 two:
-  email: MyString
-  password: MyString
+  email: two@test.com
