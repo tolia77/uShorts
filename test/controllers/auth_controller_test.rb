@@ -1,6 +1,9 @@
 require "test_helper"
 
 class AuthControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @basic_one = accounts(:basic1)
+  end
   test "should sign up" do
     post auth_signup_url, params: {email: "test1@test.com", password: "1234567890"}
     assert_response :created
@@ -17,12 +20,12 @@ class AuthControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should log in" do
-    post auth_login_url, params: {email: "one@test.com", password: "password"}
+    post auth_login_url, params: {email: @basic_one.email, password: "password"}
     assert_response :accepted
   end
 
   test "should not log in with wrong password" do
-    post auth_login_url, params: {email: "one@test.com", password: "passwordWrong"}
+    post auth_login_url, params: {email: @basic_one.email, password: "passwordWrong"}
     assert_response :unauthorized
   end
 

@@ -12,7 +12,7 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
   def auth_headers(account)
-    jwt_encode(account.id)
+    {"Authorization": "Bearer #{jwt_encode({data: account.id})}"}
   end
 
 end
