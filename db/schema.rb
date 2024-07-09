@@ -10,13 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_07_125302) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_08_101435) do
   create_table "accounts", force: :cascade do |t|
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password_digest"
     t.integer "role", default: 0
+  end
+
+  create_table "follows", force: :cascade do |t|
+    t.integer "follower_id", null: false
+    t.integer "followee_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["followee_id"], name: "index_follows_on_followee_id"
+    t.index ["follower_id"], name: "index_follows_on_follower_id"
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -28,5 +37,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_07_125302) do
     t.index ["account_id"], name: "index_profiles_on_account_id"
   end
 
+  add_foreign_key "follows", "profiles", column: "followee_id"
+  add_foreign_key "follows", "profiles", column: "follower_id"
   add_foreign_key "profiles", "accounts"
 end
