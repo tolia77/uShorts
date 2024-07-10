@@ -5,7 +5,6 @@ class ProfilesController < ApplicationController
   # GET /profiles
   def index
     @profiles = Profile.all
-
     render json: @profiles
   end
 
@@ -55,7 +54,11 @@ class ProfilesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_profile
-      @profile = Profile.find(params[:id])
+      begin
+        @profile = Profile.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        render status: :not_found
+      end
     end
 
     # Only allow a list of trusted parameters through.

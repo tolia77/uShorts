@@ -14,4 +14,9 @@ class Profile < ApplicationRecord
     f = Follow.new(follower_id: self.id, followee_id: id)
     return f.save
   end
+
+  def unfollow(id)
+    f = Follow.find_by(follower_id: self.id, followee_id: id)
+    return f.destroy
+  end
 end
