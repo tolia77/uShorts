@@ -1,9 +1,6 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  follower: one
-  followee: one
+one_two:
+  follower: basic1
+  followee: basic2
 
-two:
-  follower: two
-  followee: two
