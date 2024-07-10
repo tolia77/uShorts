@@ -10,6 +10,14 @@ class Profile < ApplicationRecord
   validates :name, presence: true, length: {maximum: 32}
   validates :description, length: {maximum: 200}
 
+  before_validation :check_has_profile, on: :create
+
+  def check_has_profile
+    if Profile.find_by(account_id: self.account_id)
+      self.errors.add(:account_id, "This account already has a profile")
+    end
+  end
+
   def follow(id)
     f = Follow.new(follower_id: self.id, followee_id: id)
     return f.save

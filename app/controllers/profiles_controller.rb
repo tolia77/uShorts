@@ -18,7 +18,7 @@ class ProfilesController < ApplicationController
     if current_user.profile
       render json: "Profile already exists", status: :conflict
     else
-      @profile = current_user.create_profile(profile_params)
+      @profile = current_user.build_profile(profile_params)
       if @profile.save
         render json: @profile, status: :created, location: @profile
       else
