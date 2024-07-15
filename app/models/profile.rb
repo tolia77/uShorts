@@ -6,7 +6,11 @@ class Profile < ApplicationRecord
 
   has_many :followees_follow, foreign_key: :follower_id, class_name: 'Follow', dependent: :destroy
   has_many :followees, through: :followees_follow, source: :followee, dependent: :destroy
-  
+
+  has_many :videos, dependent: :destroy
+
+  has_one_attached :avatar
+
   validates :name, presence: true, length: {maximum: 32}
   validates :description, length: {maximum: 200}
 

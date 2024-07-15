@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :videos
   post 'follows', to: 'follow#create'
   delete 'follow', to: 'follow#destroy'
   resources :profiles

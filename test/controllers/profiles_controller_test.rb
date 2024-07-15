@@ -85,4 +85,19 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_response :no_content
   end
 
+  test 'should create profile with avatar' do
+    assert_difference("Profile.count") do
+      post profiles_url, params: {
+        profile: {
+          description: @basic1.description, name: "glguoui", account_id: @account_basic3.id,
+          avatar: fixture_file_upload("snoop.jpg", "image/jpeg")
+        }
+      },
+           headers: auth_headers(@account_basic3)
+    end
+    assert_response :created
+    profile = Profile.last
+    assert profile.avatar.attached?
+  end
+
 end
