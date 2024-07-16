@@ -13,4 +13,10 @@ class ProfileTest < ActiveSupport::TestCase
   test 'should have an avatar' do
     assert @profile_basic1.avatar.attached?
   end
+
+  test 'should not attach avatar with wrong format' do
+    file = Rails.root.join('test', 'fixtures', 'files', 'minecraft1.mp4')
+    @profile_basic1.avatar.attach(io: File.open(file), filename: 'minecraft1.mp4')
+    assert_not @profile_basic1.save
+  end
 end

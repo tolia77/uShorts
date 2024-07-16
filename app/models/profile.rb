@@ -14,6 +14,12 @@ class Profile < ApplicationRecord
   validates :name, presence: true, length: {maximum: 32}
   validates :description, length: {maximum: 200}
 
+  validate do
+    if self.avatar.attached? && !self.avatar.content_type.in?(%w(image/png image/jpeg image/webp))
+      errors.add(:avatar, 'Must be PNG or JPEG')
+    end
+  end
+
   before_validation :check_has_profile, on: :create
 
   def check_has_profile
