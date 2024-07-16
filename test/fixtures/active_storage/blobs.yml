@@ -1,0 +1,5 @@
+avatar_snoop: <%= ActiveStorage::FixtureSet.blob filename: "snoop.jpg" %>
+
+video_minecraft1: <%= ActiveStorage::FixtureSet.blob filename: "minecraft1.mp4" %>
+
+video_minecraft2: <%= ActiveStorage::FixtureSet.blob filename: "minecraft2.mp4" %>

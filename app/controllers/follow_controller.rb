@@ -3,7 +3,7 @@ class FollowController < ApplicationController
   def create
     @follow = Follow.new(follow_params)
     if @follow.follower && @follow.followee
-      if current_user.is_owner(@follow.follower) || current_user.is_admin?
+      if current_user.is_owner(@follow.follower)
         if @follow.save
           render status: :created
         else
@@ -21,7 +21,7 @@ class FollowController < ApplicationController
   def destroy
     @follow = Follow.find_by(follower_id: params[:follower_id], followee_id: params[:followee_id])
     if @follow
-      if current_user.is_owner(@follow.follower) || current_user.is_admin?
+      if current_user.is_owner(@follow.follower)
       @follow.destroy
         render status: :no_content
       else

@@ -18,4 +18,10 @@ class ApplicationController < ActionController::API
       head 403
     end
   end
+
+  def check_has_profile
+    unless current_user.profile
+      head 401
+    end
+  end
 end

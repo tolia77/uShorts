@@ -29,7 +29,7 @@ class ProfilesController < ApplicationController
 
   # PATCH/PUT /profiles/1
   def update
-    if current_user.is_owner(@profile)
+    if current_user.is_owner(@profile) || current_user.is_moderator?
       if @profile.update(profile_params)
         render json: @profile
       else

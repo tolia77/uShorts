@@ -1,0 +1,9 @@
+avatar_first:
+  name: avatar
+  record: basic1 (Profile)
+  blob: avatar_snoop
+
+videos_first:
+  name: source
+  record: one (Video)
+  blob: video_minecraft1

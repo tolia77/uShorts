@@ -44,8 +44,12 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update profile" do
-    patch profile_url(@basic1), params: { profile: { description: @basic1.description, name: @basic1.name } },
-          headers: auth_headers(@account_basic1), as: :json
+    patch profile_url(@basic1), params: {
+      profile: {
+        description: @basic1.description, name: @basic1.name,
+        avatar: fixture_file_upload("snoop.jpg", "image/jpeg")
+      }
+    }, headers: auth_headers(@account_basic1), as: :json
     assert_response :success
   end
 

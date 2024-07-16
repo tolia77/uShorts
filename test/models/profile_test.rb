@@ -9,4 +9,8 @@ class ProfileTest < ActiveSupport::TestCase
     p = Profile.new(name: "test1122112", account_id: @account_basic1.id)
     assert_not p.save
   end
+
+  test 'should have an avatar' do
+    assert @profile_basic1.avatar.attached?
+  end
 end
