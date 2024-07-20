@@ -1,6 +1,6 @@
 require "test_helper"
 
-class FollowControllerTest < ActionDispatch::IntegrationTest
+class FollowsControllerTest < ActionDispatch::IntegrationTest
   def setup
     @account_basic1 = accounts(:basic1)
     @account_basic2 = accounts(:basic2)
@@ -48,7 +48,7 @@ class FollowControllerTest < ActionDispatch::IntegrationTest
 
   test "should unfollow" do
     assert_difference('Follow.count', -1) do
-      delete follow_path, params: {follower_id: @profile_basic1.id, followee_id: @profile_basic2.id },
+      delete follow_path, params: {follow: {follower_id: @profile_basic1.id, followee_id: @profile_basic2.id }},
              headers: auth_headers(@account_basic1), as: :json
     end
 
@@ -56,14 +56,14 @@ class FollowControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not unfollow as other user" do
-    delete follow_path, params: {follower_id: @profile_basic1.id, followee_id: @profile_basic2.id },
+    delete follow_path, params: {follow: {follower_id: @profile_basic1.id, followee_id: @profile_basic2.id }},
            headers: auth_headers(@account_basic2), as: :json
 
     assert_response :forbidden
   end
 
   test "should not unfollow when not found" do
-    delete follow_path, params: {follower_id: 12344234, followee_id: 23151325 },
+    delete follow_path, params: {follow: {follower_id: 12344234, followee_id: 23151325 }},
            headers: auth_headers(@account_basic2), as: :json
 
     assert_response :not_found

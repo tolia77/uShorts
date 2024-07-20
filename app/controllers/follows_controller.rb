@@ -1,4 +1,4 @@
-class FollowController < ApplicationController
+class FollowsController < ApplicationController
   before_action :authorize, only: %i[create destory]
   def create
     @follow = Follow.new(follow_params)
@@ -19,7 +19,7 @@ class FollowController < ApplicationController
   end
 
   def destroy
-    @follow = Follow.find_by(follower_id: params[:follower_id], followee_id: params[:followee_id])
+    @follow = Follow.find_by(follower_id: params[:follow][:follower_id], followee_id: params[:follow][:followee_id])
     if @follow
       if current_user.is_owner(@follow.follower)
       @follow.destroy
