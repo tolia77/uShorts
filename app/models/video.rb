@@ -1,6 +1,10 @@
 class Video < ApplicationRecord
   belongs_to :profile
   has_one_attached :source
+
+  has_many :likes, dependent: :destroy
+  has_many :likes_profiles, through: :likes, source: :profile
+
   validates :description, length: {maximum: 200}
   validates :source, presence: true
   validate do

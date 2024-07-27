@@ -2,12 +2,15 @@ class Profile < ApplicationRecord
   belongs_to :account
 
   has_many :followers_follow, foreign_key: :followee_id, class_name: 'Follow', dependent: :destroy
-  has_many :followers, through: :followers_follow, source: :follower, dependent: :destroy
+  has_many :followers, through: :followers_follow, source: :follower
 
   has_many :followees_follow, foreign_key: :follower_id, class_name: 'Follow', dependent: :destroy
-  has_many :followees, through: :followees_follow, source: :followee, dependent: :destroy
+  has_many :followees, through: :followees_follow, source: :followee
 
   has_many :videos, dependent: :destroy
+
+  has_many :likes, dependent: :destroy
+  has_many :liked_videos, through: :likes, source: :video
 
   has_one_attached :avatar
 
