@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module AuthHelper
-  def jwt_encode(payload)
-    JWT.encode(payload, Rails.application.credentials.auth.jwt_secret, "HS256")
+  def jwt_encode(sub, exp=Time.now.to_i + 3600 * 24 * 30)
+    JWT.encode({sub: sub, exp: exp, iat: Time.now.to_i}, Rails.application.credentials.auth.jwt_secret, "HS256")
   end
 
   def jwt_decode(token)
@@ -11,20 +11,29 @@ module AuthHelper
 
   def authorized?
     header = request.headers['Authorization']
-    unless header
-      return nil
-    end
-    !!jwt_decode(header.split(' ')[1])
+    return token_valid?(header)
   end
 
   def current_user
     header = request.headers['Authorization']
-    unless header
+    unless token_valid?(header)
       return nil
     end
-    id = jwt_decode(header.split(' ')[1])[0]['data']
+    id = jwt_decode(header.split(' ')[1])[0]['sub']
     if id
       Account.find(id)
     end
+  end
+
+  def token_valid?(token)
+    unless token
+      return false
+    end
+    begin
+      decoded = jwt_decode(token.split(' ')[1])
+    rescue
+      return false
+    end
+    return true
   end
 end

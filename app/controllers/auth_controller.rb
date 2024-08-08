@@ -1,9 +1,10 @@
 class AuthController < ApplicationController
+  #TODO: expire
   def signup
     @account = Account.new(account_params)
     if @account.save
       render json: {
-        Authorization: jwt_encode({data: @account.id}),
+        Authorization: jwt_encode(@account.id),
         Account: @account.to_json
       }, status: :created
     else
@@ -16,7 +17,7 @@ class AuthController < ApplicationController
     if @account
       if @account.authenticate(params[:password])
         render json: {
-          Authorization: jwt_encode({data: @account.id}),
+          Authorization: jwt_encode(@account.id),
           Account: @account.to_json
         }, status: :accepted
       else

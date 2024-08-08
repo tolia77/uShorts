@@ -3,9 +3,9 @@ Rails.application.routes.draw do
   post 'follows', to: 'follows#create'
   delete 'follow', to: 'follows#destroy'
   resources :profiles
-  post 'auth/signup'
-  post 'auth/login'
+  post 'signup', to: 'auth#signup', as: :auth_signup
+  post 'login', to: 'auth#login', as: :auth_login
   get 'pages/index'
   root 'pages#index'
-
+  get 'pages/protected', to: 'pages#protected'
 end
