@@ -1,12 +1,20 @@
 # frozen_string_literal: true
 
 module AuthHelper
-  def jwt_encode(sub, exp=Time.now.to_i + 3600 * 24 * 30)
-    JWT.encode({sub: sub, exp: exp, iat: Time.now.to_i}, Rails.application.credentials.auth.jwt_secret, "HS256")
+  def jwt_encode(sub, exp=Time.now.to_i + 120)
+    JWT.encode({sub: sub, exp: exp, iat: Time.now.to_i}, Rails.application.credentials.auth.jwt_access_secret, "HS256")
   end
 
   def jwt_decode(token)
-      JWT.decode(token, Rails.application.credentials.auth.jwt_secret, true, { :algorithm => 'HS256' })
+      JWT.decode(token, Rails.application.credentials.auth.jwt_access_secret, true, { :algorithm => 'HS256' })
+  end
+
+  def jwt_encode_refresh(sub, exp=Time.now.to_i + 3600 * 24 * 30)
+    JWT.encode({sub: sub, exp: exp, iat: Time.now.to_i}, Rails.application.credentials.auth.jwt_refresh_secret, "HS256")
+  end
+
+  def jwt_decode_refresh(token)
+    JWT.decode(token, Rails.application.credentials.auth.jwt_refresh_secret, true, { :algorithm => 'HS256' })
   end
 
   def authorized?

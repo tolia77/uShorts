@@ -15,4 +15,8 @@ class ActiveSupport::TestCase
     {"Authorization": "Bearer #{jwt_encode(account.id)}"}
   end
 
+  def auth_headers_refresh(account)
+    {"Authorization": "Bearer #{jwt_encode_refresh(account.id)}"}
+  end
+
 end

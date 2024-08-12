@@ -34,4 +34,9 @@ class AuthControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  test 'should refresh token' do
+    get refresh_url, headers: auth_headers_refresh(@basic_one)
+    assert_response :accepted
+  end
+
 end

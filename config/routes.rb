@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   get 'pages/index'
   root 'pages#index'
   get 'pages/protected', to: 'pages#protected'
+  get 'refresh', to: 'auth#refresh'
 end
