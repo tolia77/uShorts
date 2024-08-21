@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_27_102907) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_21_143837) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -77,6 +77,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_27_102907) do
     t.index ["account_id"], name: "index_profiles_on_account_id"
   end
 
+  create_table "sessions", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "jti"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_sessions_on_account_id"
+  end
+
   create_table "videos", force: :cascade do |t|
     t.string "description"
     t.bigint "profile_id", null: false
@@ -92,5 +100,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_27_102907) do
   add_foreign_key "likes", "profiles"
   add_foreign_key "likes", "videos"
   add_foreign_key "profiles", "accounts"
+  add_foreign_key "sessions", "accounts"
   add_foreign_key "videos", "profiles"
 end

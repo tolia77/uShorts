@@ -39,4 +39,9 @@ class AuthControllerTest < ActionDispatch::IntegrationTest
     assert_response :accepted
   end
 
+  test 'should not allow to refresh with block list jti' do
+    get refresh_url, headers: auth_headers_refresh(@basic_one, sessions(:one).jti)
+    assert_response :unauthorized
+  end
+
 end

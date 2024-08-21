@@ -3,7 +3,7 @@ class ApplicationController < ActionController::API
 
   def authorize
     unless authorized?
-      head 401
+      render json: "You need to log in", status: :unauthorized
     end
   end
 
