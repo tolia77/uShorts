@@ -1,5 +1,4 @@
 class AuthController < ApplicationController
-  #TODO: expire???, handle invalid tokens??? blocklisted jti
   def signup
     @account = Account.new(account_params)
     if @account.save
@@ -46,8 +45,6 @@ class AuthController < ApplicationController
     rescue
       render status: :unprocessable_entity
     end
-
-
   end
 
   private

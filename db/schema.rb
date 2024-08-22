@@ -77,12 +77,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_21_143837) do
     t.index ["account_id"], name: "index_profiles_on_account_id"
   end
 
-  create_table "sessions", force: :cascade do |t|
+  create_table "sessions", id: false, force: :cascade do |t|
     t.bigint "account_id", null: false
-    t.string "jti"
+    t.string "jti", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_sessions_on_account_id"
+    t.index ["jti"], name: "index_sessions_on_jti", unique: true
   end
 
   create_table "videos", force: :cascade do |t|
