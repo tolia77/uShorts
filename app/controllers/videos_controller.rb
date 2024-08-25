@@ -6,6 +6,13 @@ class VideosController < ApplicationController
     render json: Video.all
   end
 
+  def search
+    key = params[:key]
+    page = params[:page].to_i - 1
+    @videos = Video.where("description LIKE ?", "%#{key}%").offset(10 * page).limit(10)
+    render json: @videos, status: :ok
+  end
+
   def show
     render json: @video
   end

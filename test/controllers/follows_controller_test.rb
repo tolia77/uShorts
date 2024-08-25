@@ -40,6 +40,15 @@ class FollowsControllerTest < ActionDispatch::IntegrationTest
     assert_response :created
   end
 
+  test 'should follow without follower_id' do
+    assert_difference('Follow.count') do
+      post follows_path, params: {follow: {followee_id: @profile_basic1.id }},
+           headers: auth_headers(@account_basic2), as: :json
+    end
+
+    assert_response :created
+  end
+
   test 'should not follow when not found' do
     post follows_path, params: {follow: {follower_id: 124214241, followee_id: 35321521 }},
          headers: auth_headers(@account_basic1), as: :json

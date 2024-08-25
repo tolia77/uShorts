@@ -15,6 +15,11 @@ class VideosControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test 'should search video' do
+    get videos_search_url, params: {key: "on", page: 1}
+    assert_response :success
+  end
+
   test 'should show video' do
     get video_url(@video1)
     assert_response :success

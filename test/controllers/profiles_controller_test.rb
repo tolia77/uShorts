@@ -14,21 +14,26 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test 'should search profiles' do
+    get profiles_search_url, params: {key: "MyString", page: 1}
+    assert_response :success
+  end
+
   test "should create profile" do
     assert_difference("Profile.count") do
-      post profiles_url, params: { profile: { description: @basic1.description, name: @basic1.name, account_id: @account_basic3.id } },
+      post profiles_url, params: { profile: { description: @basic1.description, name: "idk", account_id: @account_basic3.id } },
            headers: auth_headers(@account_basic3), as: :json
     end
     assert_response :created
   end
 
   test "should not create profile without authorization" do
-    post profiles_url, params: { profile: { description: @basic1.description, name: @basic1.name, account_id: @account_basic3.id } }, as: :json
+    post profiles_url, params: { profile: { description: @basic1.description, name: "idk", account_id: @account_basic3.id } }, as: :json
     assert_response :unauthorized
   end
 
   test "should not create second profile" do
-    post profiles_url, params: { profile: { description: @basic1.description, name: @basic1.name, account_id: @account_basic1.id } },
+    post profiles_url, params: { profile: { description: @basic1.description, name: "idk", account_id: @account_basic1.id } },
            headers: auth_headers(@account_basic1), as: :json
     assert_response :conflict
   end

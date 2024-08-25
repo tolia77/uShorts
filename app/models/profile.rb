@@ -14,7 +14,7 @@ class Profile < ApplicationRecord
 
   has_one_attached :avatar
 
-  validates :name, presence: true, length: {maximum: 32}
+  validates :name, presence: true, length: {maximum: 32}, uniqueness: true, format: {with: /\A[a-zA-Z][a-zA-Z0-9._]*\z/, message: "Invalid username"}
   validates :description, length: {maximum: 200}
 
   validate do

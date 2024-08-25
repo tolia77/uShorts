@@ -8,6 +8,13 @@ class ProfilesController < ApplicationController
     render json: @profiles
   end
 
+  def search
+    key = params[:key]
+    page = params[:page].to_i - 1
+    @profiles = Profile.where("name LIKE ?", "%${key}%").offset(10 * page).limit(10)
+    render json: @profiles, status: :ok
+  end
+
   # GET /profiles/1
   def show
     render json: @profile
