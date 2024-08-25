@@ -8,20 +8,20 @@ class ApplicationController < ActionController::API
   end
 
   def check_user_is_admin
-    if !current_user.is_admin?
-      head 403
+    unless current_user.is_admin?
+      render json: "Forbidden", status: :forbidden
     end
   end
 
   def check_user_is_moderator
-    if !current_user.is_admin?
-      head 403
+    if !current_user.is_moderator?
+      render json: "Forbidden", status: :forbidden
     end
   end
 
   def check_has_profile
     unless current_user.profile
-      head 401
+      render json: "You need to create profile", status: :unauthorized
     end
   end
 end

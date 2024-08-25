@@ -9,7 +9,7 @@ class LikesController < ApplicationController
     if @like.profile && @like.video
       if current_user.is_owner(@like.profile)
         if @like.save
-          render status: :created
+          render json: @like, status: :created
         else
           render json: @like.errors, status: :unprocessable_entity
         end
@@ -17,7 +17,7 @@ class LikesController < ApplicationController
         render status: :forbidden
       end
     else
-      render status: :unprocessable_entity
+      render json: "Invalid profile_id/video_id", status: :unprocessable_entity
     end
   end
 

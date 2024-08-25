@@ -9,7 +9,7 @@ class FollowsController < ApplicationController
     if @follow.follower && @follow.followee
       if current_user.is_owner(@follow.follower)
         if @follow.save
-          render status: :created
+          render json: @follow, status: :created
         else
           render json: @follow.errors, status: :unprocessable_entity
         end
@@ -17,7 +17,7 @@ class FollowsController < ApplicationController
         render status: :forbidden
       end
     else
-      render status: :unprocessable_entity
+      render json: "Invalid follower_id/followee_id", status: :unprocessable_entity
     end
 
   end
@@ -27,7 +27,7 @@ class FollowsController < ApplicationController
     @follow = Follow.find_by(follower_id: follower_id, followee_id: params[:follow][:followee_id])
     if @follow
       if current_user.is_owner(@follow.follower)
-      @follow.destroy
+        @follow.destroy
         render status: :no_content
       else
         render status: :forbidden

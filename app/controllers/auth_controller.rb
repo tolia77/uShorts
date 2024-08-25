@@ -24,7 +24,7 @@ class AuthController < ApplicationController
           'Refresh-Token': jwt_encode_refresh(@account.id, jti=jti)
         }, status: :accepted
       else
-        head :unauthorized
+        render json: "Wrong password", status: :unauthorized
       end
     else
       render json: "Incorrect email", status: :not_found
@@ -43,7 +43,7 @@ class AuthController < ApplicationController
         }, status: :accepted
       end
     rescue
-      render status: :unprocessable_entity
+      render json: "Invalid token", status: :unprocessable_entity
     end
   end
 
