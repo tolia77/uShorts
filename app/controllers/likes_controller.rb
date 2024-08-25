@@ -1,20 +1,29 @@
 class LikesController < ApplicationController
   before_action :authorize
+  before_action :check_has_profile
   def create
-    @like = Like.new(profile_id: params[:profile_id], video_id: params[:video_id])
-    if current_user.is_owner(@like.profile)
-      if @like.save
-        render status: :created
+    @like = Like.new(like_params)
+    unless params[:like][:profile_id]
+      @like.profile = current_user.profile
+    end
+    if @like.profile && @like.video
+      if current_user.is_owner(@like.profile)
+        if @like.save
+          render status: :created
+        else
+          render json: @like.errors, status: :unprocessable_entity
+        end
       else
-        render json: @like.errors, status: :unprocessable_entity
+        render status: :forbidden
       end
     else
-      render status: :forbidden
+      render status: :unprocessable_entity
     end
   end
 
   def destroy
-    @like = Like.find_by(profile_id: params[:profile_id], video_id: params[:video_id])
+    profile_id = params[:profile_id] || current_user.profile.id
+    @like = Like.find_by(profile_id: profile_id, video_id: params[:video_id])
     if @like
       if current_user.is_owner(@like.profile)
         @like.destroy
@@ -25,5 +34,9 @@ class LikesController < ApplicationController
     else
       render status: :not_found
     end
+  end
+
+  def like_params
+    params.require(:like).permit(:profile_id, :video_id)
   end
 end
