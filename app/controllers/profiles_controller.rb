@@ -17,7 +17,13 @@ class ProfilesController < ApplicationController
 
   # GET /profiles/1
   def show
-    render json: @profile
+    render json: {
+      id: @profile.id,
+      name: @profile.name,
+      description: @profile.description,
+      followers: @profile.followers.count,
+      followees: @profile.followees.count
+    }
   end
 
   # POST /profiles
@@ -61,9 +67,8 @@ class ProfilesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_profile
-      begin
-        @profile = Profile.find(params[:id])
-      rescue ActiveRecord::RecordNotFound
+      @profile = Profile.find_by(name: params[:name])
+      unless @profile
         render status: :not_found
       end
     end

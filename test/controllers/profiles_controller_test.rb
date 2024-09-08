@@ -27,6 +27,8 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_response :created
   end
 
+
+
   test "should not create profile without authorization" do
     post profiles_url, params: { profile: { description: @basic1.description, name: "idk", account_id: @account_basic3.id } }, as: :json
     assert_response :unauthorized
@@ -39,7 +41,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should show profile" do
-    get profile_url(@basic1), as: :json
+    get profile_url(@basic1.name), as: :json
     assert_response :success
   end
 
@@ -49,7 +51,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update profile" do
-    patch profile_url(@basic1), params: {
+    patch profile_url(@basic1.name), params: {
       profile: {
         description: @basic1.description, name: @basic1.name,
         avatar: fixture_file_upload("snoop.jpg", "image/jpeg")
@@ -59,20 +61,20 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not update profile using different account" do
-    patch profile_url(@basic1), params: { profile: { description: @basic1.description, name: @basic1.name } },
+    patch profile_url(@basic1.name), params: { profile: { description: @basic1.description, name: @basic1.name } },
           headers: auth_headers(@account_basic2), as: :json
     assert_response :forbidden
   end
 
   test "should update profile as an admin" do
-    patch profile_url(@basic1), params: { profile: { description: @basic1.description, name: @basic1.name } },
+    patch profile_url(@basic1.name), params: { profile: { description: @basic1.description, name: @basic1.name } },
           headers: auth_headers(@account_admin1), as: :json
     assert_response :success
   end
 
   test "should destroy profile" do
     assert_difference("Profile.count", -1) do
-      delete profile_url(@basic1),
+      delete profile_url(@basic1.name),
              headers: auth_headers(@account_basic1), as: :json
     end
 
@@ -80,14 +82,14 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not destroy profile using different account" do
-    delete profile_url(@basic1),
+    delete profile_url(@basic1.name),
              headers: auth_headers(@account_basic2), as: :json
     assert_response :forbidden
   end
 
   test "should destroy profile as an admin" do
     assert_difference("Profile.count", -1) do
-      delete profile_url(@basic1),
+      delete profile_url(@basic1.name),
              headers: auth_headers(@account_admin1), as: :json
     end
 

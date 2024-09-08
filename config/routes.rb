@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   post 'likes', to: 'likes#create'
   delete 'like', to: 'likes#destroy'
   get 'profiles/search'
-  resources :profiles
+  resources :profiles, param: :name
   post 'signup', to: 'auth#signup', as: :auth_signup
   post 'login', to: 'auth#login', as: :auth_login
   get 'pages/protected', to: 'pages#protected'
