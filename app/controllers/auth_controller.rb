@@ -24,10 +24,10 @@ class AuthController < ApplicationController
           'Refresh-Token': jwt_encode_refresh(@account.id, jti=jti)
         }, status: :accepted
       else
-        render json: "Wrong password", status: :unauthorized
+        render plain: "Wrong password", status: :unauthorized
       end
     else
-      render json: "Incorrect email", status: :not_found
+      render plain: "Incorrect email", status: :not_found
     end
   end
 
@@ -36,14 +36,14 @@ class AuthController < ApplicationController
       refresh_token = request.headers['Authorization'].split(' ')[1]
       account_id = jwt_decode_refresh(refresh_token)[0]['sub']
       if Session.find_by(jti: jwt_decode_refresh(refresh_token)[0]['jti'])
-        render json: "Session is blocked", status: :unauthorized
+        render plain: "Session is blocked", status: :unauthorized
       else
         render json: {
           'Access-Token': jwt_encode(account_id)
         }, status: :accepted
       end
     rescue
-      render json: "Invalid token", status: :unprocessable_entity
+      render plain: "Invalid token", status: :unprocessable_entity
     end
   end
 

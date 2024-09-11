@@ -38,7 +38,7 @@ gem "rack-cors"
 
 # Other gems
 gem 'jwt'
-#gem 'sqlite3'
+gem 'active_model_serializers'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

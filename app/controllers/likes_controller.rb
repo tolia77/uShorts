@@ -17,7 +17,7 @@ class LikesController < ApplicationController
         render status: :forbidden
       end
     else
-      render json: "Invalid profile_id/video_id", status: :unprocessable_entity
+      render plain: "Invalid profile_id/video_id", status: :unprocessable_entity
     end
   end
 

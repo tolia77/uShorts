@@ -17,7 +17,7 @@ class FollowsController < ApplicationController
         render status: :forbidden
       end
     else
-      render json: "Invalid follower_id/followee_id", status: :unprocessable_entity
+      render plain: "Invalid follower_id/followee_id", status: :unprocessable_entity
     end
 
   end

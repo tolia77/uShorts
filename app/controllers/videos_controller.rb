@@ -3,10 +3,12 @@ class VideosController < ApplicationController
   before_action :check_has_profile, only: :create
   before_action :set_video, only: %i[show update destroy]
   def index
+    #TODO: pagination
     render json: Video.all
   end
 
   def search
+    #TODO: error handling
     key = params[:key]
     page = params[:page].to_i - 1
     @videos = Video.where("description LIKE ?", "%#{key}%").offset(10 * page).limit(10)
@@ -14,6 +16,7 @@ class VideosController < ApplicationController
   end
 
   def show
+    #TODO: SERIALIZATION
     render json: @video
   end
 

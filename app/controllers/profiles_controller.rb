@@ -17,13 +17,7 @@ class ProfilesController < ApplicationController
 
   # GET /profiles/1
   def show
-    render json: {
-      id: @profile.id,
-      name: @profile.name,
-      description: @profile.description,
-      followers: @profile.followers.count,
-      followees: @profile.followees.count
-    }
+    render json: @profile
   end
 
   # POST /profiles
