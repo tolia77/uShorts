@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :profiles, param: :name
   post 'signup', to: 'auth#signup', as: :auth_signup
   post 'login', to: 'auth#login', as: :auth_login
-  get 'pages/protected', to: 'pages#protected'
   get 'refresh', to: 'auth#refresh'
+  get 'logout', to: 'auth#logout'
+  get 'pages/protected', to: 'pages#protected'
 end

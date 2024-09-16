@@ -3,6 +3,7 @@ require "test_helper"
 class AuthControllerTest < ActionDispatch::IntegrationTest
   setup do
     @basic_one = accounts(:basic1)
+    @basic_two = accounts(:basic2)
   end
   test "should sign up" do
     post auth_signup_url, params: {email: "test1@test.com", password: "1234567890"}
@@ -44,4 +45,20 @@ class AuthControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
+  test 'should log out' do
+    assert_difference 'Session.count' do
+      get logout_url, headers: auth_headers(@basic_one), params: {refresh_token: jwt_encode_refresh(@basic_one.id, generate_jti)}
+    end
+    assert_response :success
+  end
+
+  test 'should not log out as other user' do
+    get logout_url, headers: auth_headers(@basic_two), params: {refresh_token: jwt_encode_refresh(@basic_one.id, generate_jti)}
+    assert_response :forbidden
+  end
+
+  test 'should not log out with invalid refresh token' do
+    get logout_url, headers: {Authorization: "invalid"}, params: {refresh_token: jwt_encode_refresh(@basic_one.id, generate_jti)}
+    assert_response :unprocessable_entity
+  end
 end
