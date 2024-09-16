@@ -47,18 +47,13 @@ class AuthControllerTest < ActionDispatch::IntegrationTest
 
   test 'should log out' do
     assert_difference 'Session.count' do
-      get logout_url, headers: auth_headers(@basic_one), params: {refresh_token: jwt_encode_refresh(@basic_one.id, generate_jti)}
+      get logout_url, headers: auth_headers_refresh(@basic_one)
     end
     assert_response :success
   end
 
-  test 'should not log out as other user' do
-    get logout_url, headers: auth_headers(@basic_two), params: {refresh_token: jwt_encode_refresh(@basic_one.id, generate_jti)}
-    assert_response :forbidden
-  end
-
   test 'should not log out with invalid refresh token' do
-    get logout_url, headers: {Authorization: "invalid"}, params: {refresh_token: jwt_encode_refresh(@basic_one.id, generate_jti)}
+    get logout_url, headers: {Authorization: "invalid"}
     assert_response :unprocessable_entity
   end
 end

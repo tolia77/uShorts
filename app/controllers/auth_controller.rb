@@ -48,20 +48,18 @@ class AuthController < ApplicationController
   end
 
   def logout
-    refresh_token = params[:refresh_token]
     begin
+      refresh_token = request.headers['Authorization'].split(' ')[1]
       decoded = jwt_decode_refresh(refresh_token)[0]
-      if current_user.id == decoded['sub']
-        session = Session.new(account_id: current_user.id, jti: decoded['jti'])
-        if session.save
-          render plain: "Successfully logged out", status: :ok
-        else
-          render session.errors, status: :unprocessable_entity
-        end
+      account = Account.find(decoded['sub'])
+      session = Session.new(account_id: account.id, jti: decoded['jti'])
+      if session.save
+        render plain: "Successfully logged out", status: :ok
       else
-        render status: :forbidden
+        render session.errors, status: :unprocessable_entity
       end
-    rescue
+    rescue => err
+      p err
       render plain: "Invalid token", status: :unprocessable_entity
     end
   end
