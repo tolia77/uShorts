@@ -11,7 +11,7 @@ class ProfilesController < ApplicationController
   def search
     key = params[:key]
     page = params[:page].to_i - 1
-    @profiles = Profile.where("name LIKE ?", "%${key}%").offset(10 * page).limit(10)
+    @profiles = Profile.where("name LIKE ?", "%#{key}%").offset(10 * page).limit(10)
     render json: @profiles, status: :ok
   end
 

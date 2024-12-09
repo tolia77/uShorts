@@ -58,8 +58,7 @@ class AuthController < ApplicationController
       else
         render session.errors, status: :unprocessable_entity
       end
-    rescue => err
-      p err
+    rescue
       render plain: "Invalid token", status: :unprocessable_entity
     end
   end
